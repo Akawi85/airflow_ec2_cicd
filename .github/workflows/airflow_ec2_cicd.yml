@@ -1,0 +1,24 @@
+name: deploy-airflow-to-ec2
+
+# Trigger deployment only on push to main branch
+on: # specifiy event that causes the workflow to run
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy: # specifies job_id
+    name: Deploy to EC2 on push to main branch # name displayed in github
+    runs-on: ubuntu-latest # VM to run workflow on
+    steps:
+      - name: Checkout the files
+        uses: actions/checkout@v2 # an action that checks out your repository onto the runner
+
+      - name: Deploy to ec2 server
+        uses: easingthemes/ssh-deploy@main # Deploy specific directory from GITHUB_WORKSPACE to a folder on a server via rsync over ssh
+        with:
+          ARGS: "--delete"
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          REMOTE_HOST: ${{ secrets.PUBLIC_DNS_ADDRESS }}
+          REMOTE_USER: ${{ secrets.USERNAME }}
+          TARGET: ${{ secrets.TARGET_DIR }}
