@@ -17,7 +17,7 @@ jobs:
       - name: Deploy to ec2 server
         uses: easingthemes/ssh-deploy@main # Deploy specific directory from GITHUB_WORKSPACE to a folder on a server via rsync over ssh
         with:
-          ARGS: "--delete"
+          # ARGS: "--delete"
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           REMOTE_HOST: ${{ secrets.PUBLIC_DNS_ADDRESS }}
           REMOTE_USER: ${{ secrets.USERNAME }}
